@@ -104,6 +104,7 @@ callback_object.playingTrackChanged = function playingTrackChanged(playingTrack,
     $('#artist').text(playingTrack['artist']);
     $('#art').attr('src', playingTrack['icon']);
   }
+    //apiswf.rdio_queue('t39323649');
 }
 
 callback_object.playingSourceChanged = function playingSourceChanged(playingSource) {
@@ -131,6 +132,13 @@ callback_object.queueChanged = function queueChanged(newQueue) {
     $('#nextalbum').text(newQueue[0]['album']);
     $('#nextartist').text(newQueue[0]['artist']);
     $('#nextart').attr('src', newQueue[0]['icon']);
+  }
+  else {
+    $('#nextsong').text('');
+    $('#nextalbum').text('');
+    $('#nextartist').text('');
+    $('#nextart').attr('src', null);
+
   }
 }
 
