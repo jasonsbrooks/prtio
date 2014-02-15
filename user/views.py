@@ -49,9 +49,9 @@ def new_user():
     # pdb.set_trace()
     if len(username) is 0 or len(password) is 0:
         flash("Missing information")
-        return render_template("templates/register.html", message="Oops! It looks like you missed some of the required information. Please try again.")
+        return render_template("templates/register.html")
     if User.query.filter_by(email = username).first() is not None:
-        return render_template("templates/register.html", message="Oops! It looks like you already have an account.  Please try logging in.")
+        return render_template("templates/register.html")
     user = User(email=username, firstname=firstname, lastname=lastname)
     user.hash_password(password)
     db.session.add(user)

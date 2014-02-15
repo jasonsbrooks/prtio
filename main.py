@@ -5,6 +5,8 @@ app setup thinkful.com.
 
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import distinct, func
+from sqlalchemy.orm import scoped_session, sessionmaker
 import os
 
 
