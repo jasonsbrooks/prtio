@@ -1,6 +1,9 @@
 from main import db
 from user.models import *
 
+db.drop_all()
+db.create_all()
+
 u1 = User(email="jbizzle@yale.edu", password="jason", firstname="Jason", lastname="Brooks")
 u2 = User(email="kevin.abbott@yale.edu", password="kevin", firstname="Kevin", lastname="Abbott")
 u3 = User(email="micah.rosales.iii@yale.edu", password="micah", firstname="Micah", lastname="Rosales")

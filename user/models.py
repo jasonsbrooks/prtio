@@ -33,12 +33,13 @@ class Song(db.Model):
     __tablename__='songs'
     id = db.Column(db.Integer, primary_key=True)
     uid = db.Column(db.String(80))
+    approved = db.Column(db.Boolean, default=True)
     votes = db.Column(db.Integer(20))
     song_list_id = db.Column(db.Integer, db.ForeignKey('song_lists.id'))
     songlist = db.relationship('Song_List', backref="songs")
 
     def __repr__(self):
-        return '#%d: Song ID: %s' % (self.id, self.uid)
+        return '#%d: Song ID: %s, Approved: %s' % (self.id, self.uid, self.approved)
 
 class Song_List(db.Model):
     __tablename__='song_lists'
