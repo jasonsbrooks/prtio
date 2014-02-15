@@ -1,5 +1,5 @@
 """
-app setup thinkful.com.
+app setup prtio.com.
 """
 
 
