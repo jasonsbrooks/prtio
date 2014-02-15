@@ -21,10 +21,30 @@ THE SOFTWARE.
  */
 
 // a global variable that will hold a reference to the api swf once it has loaded
-var apiswf = null;
+(function() {
+
+  // ----------
+  window.Main = {
+    $albums: {},
+
+    // ----------
+    init: function() {
+      var self = this;
+      
+      if (!rdioUtils.startupChecks()) {
+        return;
+      }
+
+      rdioUtils.authWidget($('.auth'));
+      var apiswf = null;
+
+    },
+};
 
 $(document).ready(function() {
   // on page load use SWFObject to load the API swf into div#apiswf
+  Main.init();
+
   var flashvars = {
     'playbackToken': playback_token, // from token.js
     'domain': domain,                // from token.js
@@ -124,7 +144,12 @@ callback_object.positionChanged = function positionChanged(position) {
 }
 
 callback_object.queueChanged = function queueChanged(newQueue) {
-  // The queue has changed to newQueue.
+  if (newQueue != null) {
+    $('#nextsong').text(newQueue[0]['name']);
+    $('#nextalbum').text(newQueue[0]['album']);
+    $('#nextartist').text(newQueue[0]['artist']);
+    $('#nextart').attr('src', newQueue[0]['icon']);
+  }
 }
 
 callback_object.shuffleChanged = function shuffleChanged(shuffle) {
@@ -151,5 +176,5 @@ callback_object.updateFrequencyData = function updateFrequencyData(arrayAsString
   $('#freq div').each(function(i) {
     $(this).width(parseInt(parseFloat(arr[i])*500));
   })
-}
+}();
 
