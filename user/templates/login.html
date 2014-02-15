@@ -11,16 +11,13 @@
 </head>
 <body>
 	<header>
-		<span id="change-login-register" class="montserrat">Already have an account? <a href="/user/login">Sign in here</a>.</span>
+		<span>Already have an account? Sign in <a href="/user/signin">here</a></span>
 	</header>
 	<div id="login-logo">
-		<span id="log-in-text" class="montserrat">Prtio Registration</span>
+		<span id="log-in-text">Prtio Registration</span>
 	</div>
 	<h2>{{ message }}</h2>
-	<span id="log-in-text" class="montserrat">Prtio Registration</span>
 	<form action='/user/do/register' id="prtio-registration" name='resetLayoutForm' method='POST'>
-		<input name="firstname" type="text" placeholder="First Name" />
-		<input name="lastname" type="text" placeholder="Last Name" />
 		<input name="email" type="text" placeholder="Email" />
 		<input name="password" type="password" placeholder="Password" />
 		<button class="submit-button" id="prtio-submit-log">Register</button>

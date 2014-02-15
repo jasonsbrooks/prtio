@@ -33,6 +33,11 @@ def show_users():
 def register():
     return render_template('templates/register.html')
 
+
+@user.route('/login')
+def login():
+    return render_template('templates/login.html')
+
 @user.route('/do/register', methods = ['POST'])
 def new_user():
     requestDict = request.values
