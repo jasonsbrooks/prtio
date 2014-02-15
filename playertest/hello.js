@@ -21,29 +21,11 @@ THE SOFTWARE.
  */
 
 // a global variable that will hold a reference to the api swf once it has loaded
-(function() {
-
-  // ----------
-  window.Main = {
-    $albums: {},
-
-    // ----------
-    init: function() {
-      var self = this;
-      
-      if (!rdioUtils.startupChecks()) {
-        return;
-      }
-
-      rdioUtils.authWidget($('.auth'));
-      var apiswf = null;
-
-    },
-};
+var apiswf = null;
 
 $(document).ready(function() {
   // on page load use SWFObject to load the API swf into div#apiswf
-  Main.init();
+  //rdioUtils.authWidget($('.auth'))
 
   var flashvars = {
     'playbackToken': playback_token, // from token.js
@@ -176,5 +158,5 @@ callback_object.updateFrequencyData = function updateFrequencyData(arrayAsString
   $('#freq div').each(function(i) {
     $(this).width(parseInt(parseFloat(arr[i])*500));
   })
-}();
+}
 
