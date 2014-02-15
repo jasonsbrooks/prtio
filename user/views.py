@@ -1,8 +1,8 @@
 from flask import Blueprint, send_from_directory, request, render_template, redirect, flash
 from flaskext.auth import Auth, logout, get_current_user_data
-# from user.models import User
+from user.models import User
 from user import *
-from main import *
+from main import app
 import json
 import pdb
 
@@ -28,6 +28,10 @@ def show_users():
 #         if user.authenticate(requestDict['password']):
 #             responseDict['successfulRedirect'] = '/'
 #     return json.dumps(responseDict)
+
+@user.route('/register')
+def register():
+    return render_template('templates/register.html')
 
 @user.route('/do/register', methods = ['POST'])
 def new_user():
