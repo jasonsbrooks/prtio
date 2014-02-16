@@ -21,8 +21,36 @@ $(document).ready(function() {
 
 
   // set up the controls
+  var roomID = $("#room-id").html();
+  $.ajax({
+    type: 'POST',
+    url: '/party/do/get_first_song',
+    data: {partycode: $("#room-id").html()},
+    success: function(data){
+      apiswf.rdio_queue(data);
+    }
+  });
+  $.ajax({
+    type: 'POST',
+    url: '/party/do/get_first_song',
+    data: {partycode: $("#room-id").html()},
+    success: function(data){
+      apiswf.rdio_queue(data);
+    }
+  });
+
   $('#search_button').click(function() {
-    apiswf.rdio_queue($('#search_input').val());
+    $.ajax({
+      type: 'POST',
+      url: '/party/do/get_song_id',
+      data: {songid: $("#search_input").val()},
+      success: function(data){
+        apiswf.rdio_queue(data);
+        $("#search_input").val("");
+        $('.added-notification').fadeIn();
+        $('.added-notification').delay(3000).fadeOut();
+      }
+    });
   });
   $('#pause').click(function() { apiswf.rdio_pause(); });
   $('#previous').click(function() { apiswf.rdio_previous(); });
@@ -80,7 +108,14 @@ callback_object.playingTrackChanged = function playingTrackChanged(playingTrack,
     $('#artist').text(playingTrack['artist']);
     $('#art').attr('src', playingTrack['icon']);
   }
-    //apiswf.rdio_queue('t39323649');
+  $.ajax({
+    type: 'POST',
+    url: '/party/do/get_first_song',
+    data: {partycode: $("#room-id").html()},
+    success: function(data){
+      apiswf.rdio_queue(data);
+    }
+  });
 }
 
 callback_object.playingSourceChanged = function playingSourceChanged(playingSource) {

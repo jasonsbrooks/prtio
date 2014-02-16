@@ -5,6 +5,7 @@ import twilio.twiml
 from twilio.rest import TwilioRestClient
 import os
 import pdb
+import json
 from party import *
 from user.models import *
 from flask.ext.login import login_user, logout_user, current_user, login_required
@@ -34,6 +35,36 @@ def new_party():
     db.session.add(sl)
     db.session.commit()
     return render_template('templates/party.html')
+
+@party.route("/do/get_song_id", methods=['POST'])
+def get_song_id():
+    respDict = gettrackinfo(request.form['songid'])
+    return respDict[0]
+
+@party.route('/listen', methods=['GET', 'POST'])
+@login_required
+def listen():
+    u = g.user
+    if u.parties is None:
+        return redirect(url_for('party.index'))
+    if request.method == 'POST':
+        room = request.form['party-code']
+    else:
+        room = u.parties[-1].code
+    return render_template('templates/listen.html', room=room)
+
+@party.route('/do/get_first_song', methods=['POST'])
+def return_first():
+    room = request.form['partycode']
+
+    res = Party.query.filter(Party.code == room).first().song_lists[0].songs
+    if res == []:
+        return getRandomTrack()
+    else:
+        retID = res[0].uid
+        db.session.delete(Party.query.filter(Party.code == room).first().song_lists[0].songs[0])
+        db.session.commit()
+        return retID
 
 @party.route("/textrequest", methods=['GET', 'POST'])
 def text_request():
@@ -73,3 +104,41 @@ def text_request():
     resp.sms(returnmessage)
  
     return str(resp)
+
+@party.route("/get_pending", methods=['POST'])
+def get_pending():
+    #get the party key
+    jsonResp = json.loads(request.data)
+    partykey = jsonResp['partykey']
+    res = Party.query.filter(Party.code == partykey).first()
+    if res is None:
+        return "{'success': 'false'}"
+    else:
+        sl = res.song_lists[0]
+    goodSongs = []
+    allsongs = Song_List.query.filter(Song.songlist == sl).all()
+    for song in allsongs:
+        if song.approved == 1:
+            goodSongs.update({'title': song.title, 'artist': song.artist, 'coverpic': song.coverpic, 'id': song.id})
+    return json.dumps(goodSongs)
+
+@party.route("/approval", methods=['POST'])
+def approval():
+    j = json.loads(request.data)
+    sID = j['id']
+    action = j['action']
+    s = Song.query.filter(Song.id == sID).first()
+    if action is 'denied':
+        db.session.delete(s)
+        db.session.commit()
+    else:
+        s.approved = 0
+        db.session.commit()
+
+
+
+# @party.route("/createParty",methods=['POST']) ask jason about this shiz
+
+
+
+

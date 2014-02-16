@@ -6,22 +6,35 @@ import pdb
 import json
 from urllib2 import HTTPError
 import os
+from random import randint
 
 RDIO_CONSUMER_KEY = os.environ['RDIO_CONSUMER_KEY']
 RDIO_CONSUMER_SECRET = os.environ['RDIO_CONSUMER_SECRET']
 rdio = Rdio((RDIO_CONSUMER_KEY,RDIO_CONSUMER_SECRET))
 
 def gettrackinfo(query):
-	try:
-		myResults = rdio.call('searchSuggestions', {'query':query, 'types': 'Track'})
-	except HTTPError, e:
-		print e.read()
-		return None
+    try:
+        myResults = rdio.call('searchSuggestions', {'query':query, 'types': 'Track'})
+    except HTTPError, e:
+        print e.read()
+        return None
 
-	if myResults['result'] == []:
-		return None
+    if myResults['result'] == []:
+        return None
 
-	myResults = myResults['result'][0]
+    myResults = myResults['result'][0]
 
-	return [myResults['key'],myResults['name'],myResults['albumArtist'],myResults['album'],myResults['icon']]
+    return [myResults['key'],myResults['name'],myResults['albumArtist'],myResults['album'],myResults['icon']]
+
+def getRandomTrack():
+    try:
+        myResults = rdio.call('getTopCharts', {'type': 'Track', 'count': 100})
+    except HTTPError, e:
+        print e.read()
+        return None
+
+    if myResults['result'] == []:
+        return None
+
+    return myResults['result'][randint(0,99)]['key']
 
