@@ -7,20 +7,19 @@
 	<link rel="stylesheet" type="text/css" href="static/css/reset.css" />
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,800' rel='stylesheet' type='text/css'>
 	<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-	<title>prtio | Register</title>
+	<title>prtio | Log In</title>
 </head>
 <body>
-	<header>
-		<span>Already have an account? Sign in <a href="/user/signin">here</a></span>
-	</header>
-	<div id="login-logo">
-		<span id="log-in-text">Prtio Registration</span>
+	<div id="change-login-register">
+		<span id="switch-text" class="montserrat">Don't have an account? <a href="/user/register">Create one now</a>.</span>
 	</div>
-	<h2>{{ message }}</h2>
-	<form action='/user/do/register' id="prtio-registration" name='resetLayoutForm' method='POST'>
-		<input name="email" type="text" placeholder="Email" />
-		<input name="password" type="password" placeholder="Password" />
-		<button class="submit-button" id="prtio-submit-log">Register</button>
-	</form>		
+	<div id="main-login-section">
+		<span id="log-in-text" class="montserrat">Prtio Login</span>
+		<form action='/user/do/login' id="prtio-registration" name='resetLayoutForm' method='POST'>
+			<input name="email" type="text" placeholder="Email" />
+			<input name="password" type="password" placeholder="Password" />
+			<button class="submit-button" id="prtio-submit-log">Log In</button>
+		</form>
+	</div>
 </body>
 </html>
