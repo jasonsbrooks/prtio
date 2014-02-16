@@ -9,11 +9,19 @@ import datetime
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
-    salt = db.Column(db.String(80))
+    fbid = db.Column(db.Integer, index = True, unique = True)
+    token = db.Column(db.String(1000))
     firstname = db.Column(db.String(80))
     lastname = db.Column(db.String(80))
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return unicode(self.id)
 
     def __repr__(self):
         return '#%d: First Name: %s   Last Name: %s' % (self.id, self.firstname, self.lastname)
