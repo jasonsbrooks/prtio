@@ -96,13 +96,16 @@ def text_request():
             s = Song(uid=songinfo[0], title=songinfo[1], artist=songinfo[2], votes=2, approved=2, album=songinfo[3], coverpic=songinfo[4], songlist = sl)
             db.session.add(s)
             db.session.commit()
-    # if request.method == "GET":
-    #     return songid
-    # code here to add songinfo[0] to the queue
 
     resp = twilio.twiml.Response()
     resp.sms(returnmessage)
  
+    return str(resp)
+
+@party.route("/callrequest", methods=['GET', 'POST'])
+def call_request():
+    resp = twilio.twiml.Response()
+    resp.say("Hello. Our calling service has not been set up yet. Please call again later")
     return str(resp)
 
 @party.route("/get_pending", methods=['POST'])
@@ -135,9 +138,6 @@ def approval():
         s.approved = 0
         db.session.commit()
 
-
-
-# @party.route("/createParty",methods=['POST']) ask jason about this shiz
 
 
 
