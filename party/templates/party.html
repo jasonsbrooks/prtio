@@ -17,7 +17,7 @@
 		<h1 class="account-name"><a href="/user/logout" class="logout">Log Out</a> | {{ user.firstname }} {{ user.lastname }}</h1>
     </header>
 	<h1>Make a New Party</h1>
-
+	<h2>Or listen to your most recent party <a href="/party/listen">here</a>.</h2>
 	<form action='/party/do/newparty' name='create-new-party' method='POST'>
 		<input name="party-name" type="text" placeholder="Party Name" />
 		<input name="party-code" type="text" placeholder="Party Code" />
