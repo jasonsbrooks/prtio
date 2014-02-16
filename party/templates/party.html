@@ -1,11 +1,32 @@
-<h1>Make a new party</h1>
 
-<form action='/party/do/newparty' name='create-new-party' method='POST'>
-	<input name="party-name" type="text" placeholder="Party Name" />
-	<input name="party-code" type="text" placeholder="Party Code" />
-	<button class="submit-button" id="prtio-submit-log">Submit</button>
-</form>
+<html lang="en">
+<head>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://malsup.github.com/jquery.form.js"></script>
+	<!-- <script type="text/javascript" src="static/javascript/home.js"></script> -->
+	<link rel="stylesheet" type="text/css" href="static/css/party.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="static/css/reset.css" /> -->
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,800' rel='stylesheet' type='text/css'>
+	<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,300,400italic,400,600italic,600,700italic,700,800italic,800" rel="stylesheet" type="text/css">
+	<title>prtio | Curate Parties To Your Liking</title>
+</head>
+<body>
+	<header>
+		<h1 class="company-name"><a href="/">prtio</h1>
+		<h1 class="account-name"><a href="/user/logout" class="logout">Log Out</a> | {{ user.firstname }} {{ user.lastname }}</h1>
+    </header>
+	<h1>Make a new party</h1>
 
-{% for item in parties %}
-	<li>{{ item.name}}</li>
-{% endfor %}
+	<form action='/party/do/newparty' name='create-new-party' method='POST'>
+		<input name="party-name" type="text" placeholder="Party Name" />
+		<input name="party-code" type="text" placeholder="Party Code" />
+		<button class="submit-button" id="prtio-submit-log">Submit</button>
+	</form>
+
+	{% for item in parties %}
+		<li>{{ item.name}}</li>
+	{% endfor %}
+
+</body>
+</html>

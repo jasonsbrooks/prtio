@@ -18,13 +18,13 @@ def gettrackinfo(query):
     except HTTPError, e:
         print e.read()
         return None
-
+    # pdb.set_trace()
     if myResults['result'] == []:
         return None
 
     myResults = myResults['result'][0]
 
-    return [myResults['key'],myResults['name'],myResults['albumArtist'],myResults['album'],myResults['icon']]
+    return [myResults['key'],myResults['name'],myResults['artist'],myResults['album'],myResults['icon']]
 
 def getRandomTrack():
     try:

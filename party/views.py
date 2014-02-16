@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, Response, request, 
-    Blueprint, redirect, send_from_directory, send_file, jsonify, g)
+    Blueprint, redirect, send_from_directory, send_file, jsonify, g, url_for)
 from flask import session
 import twilio.twiml
 from twilio.rest import TwilioRestClient
@@ -21,7 +21,7 @@ client = TwilioRestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 @login_required
 def index():
     u = g.user
-    return render_template('templates/party.html', parties = u.parties)
+    return render_template('templates/party.html', parties = u.parties, user=u)
 
 @party.route('/do/newparty', methods=['POST'])
 def new_party():
@@ -45,18 +45,17 @@ def get_song_id():
 @login_required
 def listen():
     u = g.user
-    if u.parties is None:
-        return redirect(url_for('party.index'))
     if request.method == 'POST':
         room = request.form['party-code']
     else:
+        if u.parties == []:
+            return redirect(url_for('party.index', user=u))
         room = u.parties[-1].code
-    return render_template('templates/listen.html', room=room)
+    return render_template('templates/listen.html', room=room, user=u)
 
 @party.route('/do/get_first_song', methods=['POST'])
 def return_first():
     room = request.form['partycode']
-
     res = Party.query.filter(Party.code == room).first().song_lists[0].songs
     if res == []:
         return getRandomTrack()
@@ -128,10 +127,13 @@ def get_pending():
 @party.route("/approval", methods=['POST'])
 def approval():
     j = json.loads(request.data)
+    # pdb.set_trace()
     sID = j['id']
     action = j['action']
     s = Song.query.filter(Song.id == sID).first()
-    if action is 'denied':
+    if s is None:
+        return "{'success': 'true'}"
+    if action == 'denied':
         db.session.delete(s)
         db.session.commit()
         return "{'success': 'true'}"
