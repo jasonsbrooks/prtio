@@ -44,6 +44,8 @@ class Song(db.Model):
     title = db.Column(db.String(80))
     artist = db.Column(db.String(80))    
     approved = db.Column(db.Integer)
+    album = db.Column(db.String(80))
+    coverpic = db.Column(db.String(80))
     votes = db.Column(db.Integer(20))
     song_list_id = db.Column(db.Integer, db.ForeignKey('song_lists.id'))
     songlist = db.relationship('Song_List', backref="songs")
@@ -56,3 +58,6 @@ class Song_List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     party_id = db.Column(db.Integer, db.ForeignKey('parties.id'))
     party = db.relationship('Party', backref="song_lists")
+
+    def __repr__(self):
+        return '#%d: Party ID: %d' % (self.id, self.party_id)

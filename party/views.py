@@ -61,8 +61,10 @@ def text_request():
             returnmessage = "".join(["We're sorry, we couldn't find the song \"", messages[0].body, "\" that you were looking for. Respond to try again."])
         else:
             returnmessage = "".join(["Thank you for adding ", songinfo[1], ", by ", songinfo[2], " to the party playlist. Reply to add another song."])
-            # songid.add(songinfo[0])
-    
+            sl = Party.query.filter(Party.code == session['party']).first().song_lists[0]
+            s = Song(uid=songinfo[0], title=songinfo[1], artist=songinfo[2], votes=2, approved=2, album=songinfo[3], coverpic=songinfo[4], songlist = sl)
+            db.session.add(s)
+            db.session.commit()
     # if request.method == "GET":
     #     return songid
     # code here to add songinfo[0] to the queue
