@@ -7,14 +7,17 @@
 	<link rel="stylesheet" type="text/css" href="static/css/reset.css" />
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,800' rel='stylesheet' type='text/css'>
 	<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,300,400italic,400,600italic,600,700italic,700,800italic,800" rel="stylesheet" type="text/css">
 	<title>prtio | Curate Parties To Your Liking</title>
 </head>
 <body>
 	<div class="modal-box">
-		<span id="title-name">prtio</span>
-		<span class="subtitle montserrat w300 35pix white">The best way to make a party playlist.</span>
+		<div class="title">
+			<span id="title-name">prtio</span>
+		</div>
+		<span class="subtitle white">The best way to make a party playlist.</span>
 		<form action = '/user/login' name='resetLayoutForm' method='POST'>
-		    <input type="submit" value="Log In With Facebook" />
+		    <button id="signin-facebook-button" class="facebook">Sign up with Facebook</button>
 		</form>
 		<!-- <button id="facebook-login" href="/user/login" class="homepage-button montserrat">Sign In</a> -->
 	</div>

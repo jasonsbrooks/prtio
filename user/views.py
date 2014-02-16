@@ -1,5 +1,5 @@
-from flask import Blueprint, send_from_directory, request, render_template, redirect, flash, session, url_for
-from flaskext.auth import Auth, logout, get_current_user_data
+from flask import Blueprint, send_from_directory, request, render_template, redirect, flash, session, url_for, g
+from flask.ext.login import login_user, logout_user, current_user, login_required
 from user.models import User
 from user import *
 from main import app
@@ -7,6 +7,7 @@ import json
 import pdb
 from flask_oauth import OAuth
 import os
+from main import lm
 
 FACEBOOK_APP_ID = os.environ['FACEBOOK_APP_ID']
 FACEBOOK_APP_SECRET = os.environ['FACEBOOK_APP_SECRET']
@@ -30,6 +31,14 @@ facebook = oauth.remote_app('facebook',
 
 user = Blueprint('user', __name__, template_folder="")
 
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+@app.before_request
+def before_request():
+    g.user = current_user
+
 @user.route('/show_users/')
 def show_users():
     users = User.query.all()
@@ -37,9 +46,18 @@ def show_users():
 
 @user.route('/login', methods = ['POST'])
 def login():
+    if g.user is not None and g.user.is_authenticated():
+        print "already authed"
+        return redirect(url_for('party.index'))
+    print "not authed"
     return facebook.authorize(callback=url_for('user.facebook_authorized',
         next=request.args.get('next') or request.referrer or None,
         _external=True))
+
+@user.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('splash.home'))
 
 @user.route('/login/authorized')
 @facebook.authorized_handler
@@ -57,7 +75,8 @@ def facebook_authorized(resp):
         db.session.add(user)
         # pdb.set_trace()
         db.session.commit()
-
+    login_user(user, remember = True)
+    return redirect(url_for('party.index'))
     return 'Logged in as id=%s name=%s redirect=%s' % \
         (me.data['id'], me.data['name'], request.args.get('next'))
 
