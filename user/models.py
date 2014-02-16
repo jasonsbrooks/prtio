@@ -9,7 +9,7 @@ import datetime
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    fbid = db.Column(db.BigInteger, index = True, unique = True)
+    fbid = db.Column(db.String(1000), unique = True)
     token = db.Column(db.String(1000))
     firstname = db.Column(db.String(80))
     lastname = db.Column(db.String(80))

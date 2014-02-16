@@ -69,9 +69,9 @@ def facebook_authorized(resp):
         )
     session['oauth_token'] = (resp['access_token'], '')
     me = facebook.get('/me')
-    user = getUser(me.data['id'])
+    user = getUser(str(me.data['id']))
     if user is None:
-        user = User(fbid=me.data['id'], firstname=me.data['first_name'], lastname=me.data['last_name'])
+        user = User(fbid=str(me.data['id']), firstname=me.data['first_name'], lastname=me.data['last_name'])
         db.session.add(user)
         # pdb.set_trace()
         db.session.commit()
