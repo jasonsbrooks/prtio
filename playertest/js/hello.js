@@ -36,22 +36,20 @@ $(document).ready(function() {
     'allowScriptAccess': 'always'
   };
   var attributes = {};
-  swfobject.embedSWF('http://www.rdio.com/api/swf/', // the location of the Rdio Playback API SWF
+  swfobject.embedSWF(
+      'http://www.rdio.com/api/swf/', // the location of the Rdio Playback API SWF
       'apiswf', // the ID of the element that will be replaced with the SWF
       1, 1, '9.0.0', 'expressInstall.swf', flashvars, params, attributes);
 
 
   // set up the controls
-  $('#play').click(function() {
-    apiswf.rdio_play($('#play_key').val());
+  $('#search_button').click(function() {
+    apiswf.rdio_queue($('#search_input').val());
   });
-  $('#stop').click(function() { apiswf.rdio_stop(); });
   $('#pause').click(function() { apiswf.rdio_pause(); });
   $('#previous').click(function() { apiswf.rdio_previous(); });
   $('#next').click(function() { apiswf.rdio_next(); });
-  $('#queue').click(function() {
-    apiswf.rdio_queue($('#queue_key').val());
-  });
+  $('#play').click(function() { apiswf.rdio_play(); });
 });
 
 
