@@ -34,7 +34,7 @@ def new_party():
     sl = Song_List(party=p)
     db.session.add(sl)
     db.session.commit()
-    return redirect(url_for('party.index', user=u))
+    return redirect(url_for('party.listen'))
 
 @party.route("/do/get_song_id", methods=['POST'])
 def get_song_id():
