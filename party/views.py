@@ -5,6 +5,7 @@ import twilio.twiml
 from twilio.rest import TwilioRestClient
 import os
 from party import *
+from user.models import *
 
 party = Blueprint('party', __name__, template_folder="")
 
@@ -30,9 +31,12 @@ def text_request():
 
     if (session.get('party', 0) == 0):
         message = message.strip().lower()
-        # query the party to make sure it exists, for now just set the party
-        session['party'] = message
-        returnmessage = "".join(["You are now part of the party \"", message, ".\" Reply with a song title and/or artist to queue a song!"])
+        p = Party.query.filter(Party.code == message).first()
+        if p is None:
+        	returnmessage = "".join(["We're sorry, we couldn't find the party \"", message, "\" that you were looking for. Respond to try again."])
+        else:
+	        session['party'] = message
+	        returnmessage = "".join(["You are now part of the party \"", message, ".\" Reply with a song title and/or artist to queue a song!"])
     else:
         songinfo = gettrackinfo(message)
         if songinfo == None:
