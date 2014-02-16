@@ -28,7 +28,7 @@ def new_party():
     u = g.user
     party_name = request.form['party-name']
     party_code = request.form['party-code']
-    p = Party(name=party_name, code=party_code.lower().strip(), user=u)
+    p = Party(name=party_name, code=party_code, user=u)
     db.session.add(p)
     db.session.commit()
     sl = Song_List(party=p)
