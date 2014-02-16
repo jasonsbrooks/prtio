@@ -23,5 +23,5 @@ def gettrackinfo(query):
 
 	myResults = myResults['result'][0]
 
-	return [myResults['key'],myResults['name'],myResults['albumArtist']]
+	return [myResults['key'],myResults['name'],myResults['albumArtist'],myResults['album'],myResults['icon']]
 
