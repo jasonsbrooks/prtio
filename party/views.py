@@ -28,7 +28,7 @@ def new_party():
     u = g.user
     party_name = request.form['party-name']
     party_code = request.form['party-code']
-    p = Party(name=party_name, code=party_code, user=u)
+    p = Party(name=party_name, code=party_code.lower().strip(), user=u)
     db.session.add(p)
     db.session.commit()
     sl = Song_List(party=p)
@@ -85,7 +85,7 @@ def text_request():
         	returnmessage = "".join(["We're sorry, we couldn't find the party \"", message, "\" that you were looking for. Respond to try again."])
         else:
 	        session['party'] = message
-	        returnmessage = "".join(["You are now part of the party \"", message, ".\" Reply with a song title and/or artist to queue a song!"])
+	        returnmessage = "".join(["You are now part of the party \"", message, ".\" Reply with a song title and/or artist to queue a song, or reply with the word 'setparty' and a new party code to switch rooms!"])
     else:
         songinfo = gettrackinfo(message)
         if songinfo == None:
@@ -93,7 +93,7 @@ def text_request():
         else:
             returnmessage = "".join(["Thank you for adding ", songinfo[1], ", by ", songinfo[2], " to the party playlist. Reply to add another song."])
             sl = Party.query.filter(Party.code == session['party']).first().song_lists[0]
-            s = Song(uid=songinfo[0], title=songinfo[1], artist=songinfo[2], votes=2, approved=2, album=songinfo[3], coverpic=songinfo[4], songlist = sl)
+            s = Song(uid=songinfo[0], title=songinfo[1], artist=songinfo[2], votes=1, approved=1, album=songinfo[3], coverpic=songinfo[4], songlist = sl)
             db.session.add(s)
             db.session.commit()
 
@@ -113,16 +113,16 @@ def get_pending():
     #get the party key
     jsonResp = json.loads(request.data)
     partykey = jsonResp['partykey']
+    # pdb.set_trace()
     res = Party.query.filter(Party.code == partykey).first()
     if res is None:
         return "{'success': 'false'}"
     else:
         sl = res.song_lists[0]
     goodSongs = []
-    allsongs = Song_List.query.filter(Song.songlist == sl).all()
-    for song in allsongs:
+    for song in sl.songs:
         if song.approved == 1:
-            goodSongs.update({'title': song.title, 'artist': song.artist, 'coverpic': song.coverpic, 'id': song.id})
+            goodSongs.append({'title': song.title, 'artist': song.artist, 'coverpic': song.coverpic, 'id': song.id})
     return json.dumps(goodSongs)
 
 @party.route("/approval", methods=['POST'])
@@ -134,10 +134,11 @@ def approval():
     if action is 'denied':
         db.session.delete(s)
         db.session.commit()
+        return "{'success': 'true'}"
     else:
         s.approved = 0
         db.session.commit()
-
+        return "{'success': 'true'}"
 
 
 
