@@ -51,7 +51,7 @@ class Song(db.Model):
     songlist = db.relationship('Song_List', backref="songs")
 
     def __repr__(self):
-        return '#%d: Song ID: %s, Approved: %s' % (self.id, self.uid, self.approved)
+        return '#%d: Song Title: %s, Song Artist: %s' % (self.id, self.title, self.artist)
 
 class Song_List(db.Model):
     __tablename__='song_lists'
