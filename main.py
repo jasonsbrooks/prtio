@@ -19,7 +19,7 @@ db = SQLAlchemy(app)
 
 lm = LoginManager()
 lm.init_app(app)
-lm.login_view = 'user/login'
+lm.login_view = 'splash.home'
 
 # for flaskext.auth -- secret key needed to use sessions
 app.secret_key = os.environ['USER_AUTH_SECRET_KEY']

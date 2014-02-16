@@ -44,7 +44,7 @@ def show_users():
     users = User.query.all()
     return render_template('templates/show_users.html', users=users)
 
-@user.route('/login', methods = ['POST'])
+@user.route('/login', methods = ['GET', 'POST'])
 def login():
     if g.user is not None and g.user.is_authenticated():
         print "already authed"

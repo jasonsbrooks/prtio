@@ -4,7 +4,11 @@ from flask import session
 import twilio.twiml
 from twilio.rest import TwilioRestClient
 import os
+import pdb
 from party import *
+from user.models import *
+from flask.ext.login import login_user, logout_user, current_user, login_required
+
 
 party = Blueprint('party', __name__, template_folder="")
 
@@ -13,7 +17,22 @@ TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
 client = TwilioRestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 @party.route('/')
+@login_required
 def index():
+    u = g.user
+    return render_template('templates/party.html', parties = u.parties)
+
+@party.route('/do/newparty', methods=['POST'])
+def new_party():
+    u = g.user
+    party_name = request.form['party-name']
+    party_code = request.form['party-code']
+    p = Party(name=party_name, code=party_code, user=u)
+    db.session.add(p)
+    db.session.commit()
+    sl = Song_List(party=p)
+    db.session.add(sl)
+    db.session.commit()
     return render_template('templates/party.html')
 
 @party.route("/textrequest", methods=['GET', 'POST'])

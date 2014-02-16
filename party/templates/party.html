@@ -1,1 +1,11 @@
-<h1>I will cut you</h1>
+<h1>Make a new party</h1>
+
+<form action='/party/do/newparty' name='create-new-party' method='POST'>
+	<input name="party-name" type="text" placeholder="Party Name" />
+	<input name="party-code" type="text" placeholder="Party Code" />
+	<button class="submit-button" id="prtio-submit-log">Submit</button>
+</form>
+
+{% for item in parties %}
+	<li>{{ item.name}}</li>
+{% endfor %}
