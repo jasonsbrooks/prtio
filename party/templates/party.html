@@ -16,7 +16,7 @@
 		<h1 class="company-name"><a href="/">prtio</h1>
 		<h1 class="account-name"><a href="/user/logout" class="logout">Log Out</a> | {{ user.firstname }} {{ user.lastname }}</h1>
     </header>
-	<h1>Make a new party</h1>
+	<h1>Make a New Party</h1>
 
 	<form action='/party/do/newparty' name='create-new-party' method='POST'>
 		<input name="party-name" type="text" placeholder="Party Name" />
@@ -24,9 +24,7 @@
 		<button class="submit-button" id="prtio-submit-log">Submit</button>
 	</form>
 
-	{% for item in parties %}
-		<li>{{ item.name}}</li>
-	{% endfor %}
+	
 
 </body>
 </html>
