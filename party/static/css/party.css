@@ -9,6 +9,14 @@ a {
 	color: white;
 }
 
+.flashes{
+  text-align: center;
+}
+
+#code-exists{
+  color:red;
+}
+
 header {
   background: rgb(14, 123, 203);
   display: block;

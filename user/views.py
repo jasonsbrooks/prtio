@@ -47,9 +47,7 @@ def show_users():
 @user.route('/login', methods = ['GET', 'POST'])
 def login():
     if g.user is not None and g.user.is_authenticated():
-        print "already authed"
         return redirect(url_for('party.index'))
-    print "not authed"
     return facebook.authorize(callback=url_for('user.facebook_authorized',
         next=request.args.get('next') or request.referrer or None,
         _external=True))

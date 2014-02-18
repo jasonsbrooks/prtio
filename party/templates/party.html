@@ -3,6 +3,7 @@
 <head>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://malsup.github.com/jquery.form.js"></script>
+	<script src="static/js/party.js"></script>
 	<!-- <script type="text/javascript" src="static/javascript/home.js"></script> -->
 	<link rel="stylesheet" type="text/css" href="static/css/party.css" />
 	<!-- <link rel="stylesheet" type="text/css" href="static/css/reset.css" /> -->
@@ -18,6 +19,11 @@
     </header>
 	<h1>Make a New Party</h1>
 	<h2>Or listen to your most recent party <a href="/party/listen">here</a>.</h2>
+    <div class="flashes">
+	  {% for message in get_flashed_messages() %}
+	    <span id="code-exists">{{ message }}</span>
+	  {% endfor %}
+	</div>
 	<form action='/party/do/newparty' name='create-new-party' method='POST'>
 		<input name="party-name" type="text" placeholder="Party Name" />
 		<input name="party-code" type="text" placeholder="Party Code" />

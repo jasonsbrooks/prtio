@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, Response, request, 
-    Blueprint, redirect, send_from_directory, send_file, jsonify, g, url_for)
+    flash, Blueprint, redirect, send_from_directory, send_file, jsonify, g, url_for)
 from flask import session
 import twilio.twiml
 from twilio.rest import TwilioRestClient
@@ -28,6 +28,10 @@ def new_party():
     u = g.user
     party_name = request.form['party-name']
     party_code = request.form['party-code']
+    # if party code already exists
+    if Party.query.filter(Party.code == party_code).first() != None:
+        flash("Error: Party code already exists! Please try a different code.")
+        return redirect(url_for('party.index', user=u))
     p = Party(name=party_name, code=party_code, user=u)
     db.session.add(p)
     db.session.commit()
