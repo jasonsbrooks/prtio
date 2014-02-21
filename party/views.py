@@ -99,7 +99,7 @@ def text_request():
             s = Song(uid=songinfo[0], title=songinfo[1], artist=songinfo[2], votes=1, approved=1, album=songinfo[3], coverpic=songinfo[4], songlist = sl)
             db.session.add(s)
             db.session.commit()
-
+    print returnmessage
     resp = twilio.twiml.Response()
     resp.sms(returnmessage)
  
