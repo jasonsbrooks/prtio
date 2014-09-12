@@ -1,7 +1,7 @@
 from flask import Blueprint, send_from_directory, request, render_template, redirect, flash, session, url_for, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from user.models import User
-from flask_oauth import OAuth
+from flask_oauthlib.client import OAuth, OAuthException
 from user import *
 from main import app
 import json
